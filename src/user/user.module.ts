@@ -16,7 +16,7 @@ import { Role } from '../role/entities/role.entity';
         name: 'Device_MICROSERVICE',
         transport: Transport.TCP,
         options: {
-          // host: 'host.docker.internal',
+          host: 'host.docker.internal',
           port: parseInt(process.env.DEVICE_MICROSERVICE_PORT),
         },
       },

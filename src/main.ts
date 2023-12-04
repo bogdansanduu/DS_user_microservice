@@ -9,6 +9,7 @@ async function bootstrap() {
   const userMicroservice = app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.TCP,
     options: {
+      host: '0.0.0.0',
       port: parseInt(process.env.USER_MICROSERVICE_PORT),
     },
   });
@@ -19,4 +20,5 @@ async function bootstrap() {
   await app.listen(parseInt(process.env.APP_PORT));
   //await seedDatabase().catch((error) => console.error(error));
 }
+
 bootstrap();
