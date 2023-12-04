@@ -16,14 +16,12 @@ import { AuthGuard } from '../auth/auth.guard';
 import { RolesGuard } from '../role/role.guard';
 import { UpdateUserDto } from './dto/UpdateUserDto';
 import { Role } from '../constants/role';
-import { ClientProxy, MessagePattern } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    @Inject(UserService) private readonly userService: UserService,
-    @Inject('Device_MICROSERVICE') private readonly clientDevice: ClientProxy,
-  ) {}
+  constructor(@Inject(UserService) private readonly userService: UserService) {}
+
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.User, Role.Admin)
   @Get('getAll')
@@ -57,7 +55,7 @@ export class UserController {
 
   //---MICROSERVICE---//
 
-  @MessagePattern('checkUserExists')
+  @MessagePattern({ cmd: 'check_user_exists' })
   async checkUserExists({ userId }: { userId: number }) {
     return !!(await this.userService.findOneById(userId));
   }
